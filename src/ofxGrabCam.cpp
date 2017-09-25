@@ -337,9 +337,9 @@ void ofxGrabCam::mouseDragged(ofMouseEventArgs & args) {
 		Orbit,
 		Pan,
 		Dolly,
-		None
+		Non
 	};
-	Action action = Action::None;
+	Action action = Action::Non;
 
 	if (this->inputState.keysDown.h) {
 		action = Action::Pan;
@@ -392,7 +392,7 @@ void ofxGrabCam::mouseDragged(ofMouseEventArgs & args) {
 		ofCamera::move(2 * cameraToMouse * mouseMovement.y / this->view.viewport.getHeight());
 		break;
 	}
-	case Action::None:
+	case Action::Non:
 	default:
 		break;
 	}
@@ -508,7 +508,8 @@ void ofxGrabCam::findCursor() {
 
 	//check we're still looking at the near/far plane before updating the mouse distance
 	if (z != nearPlaneZ && z != farPlaneZ) {
-		this->tracking.mouse.projectedDepth = ((float)z / (float)USHRT_MAX) * 2.0f - 1.0f;
+		// this->tracking.mouse.projectedDepth = ((float)z / (float)USHRT_MAX) * 2.0f - 1.0f;
+		this->tracking.mouse.projectedDepth = ((float)z / (float) std::numeric_limits<unsigned short>::max() ) * 2.0f - 1.0f;
 	}
 	
 	//find mouse coordinates
